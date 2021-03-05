@@ -1,0 +1,110 @@
+------ funcion modificar las notas del G1 bases de datos (2) por 10, año y periodo. Calificacion = 0.
+
+create or replace function modificar_notas (grupo_ varchar, curso_ varchar, anio_ integer, periodo_ integer) returns real
+language plpgsql
+as
+$$
+declare
+	modificar real;
+	idGrupo integer;
+begin
+	select count(ins.id) into modificar
+	from inscripcion ins join grupo gru on (ins.id_grupo = gru.id) join curso cur on (gru.id_curso = cur.id)
+	where gru.nombre = grupo_ and cur.nombre = curso_ and gru.anio = anio_ and gru.periodo = periodo_;
+
+	select gru.id into idGrupo
+	from grupo gru join curso cur on (gru.id_curso = cur.id)
+	where cur.nombre = curso_ and gru.nombre = grupo_ and gru.periodo = periodo_ and gru.anio = anio_;
+		
+	update inscripcion
+	set calificacion = 90
+	where id_grupo = idGrupo;
+	
+	return modificar;
+end;
+$$
+
+select modificar_notas('G1', 'Manejo de Bases de Datos', 2020, 2)
+
+
+create or replace function modificar_notas (grupo_ varchar, curso_ varchar, anio_ integer, periodo_ integer) returns real
+language plpgsql
+as
+$$
+declare
+	modificar real;
+begin
+	select count(ins.id) into modificar
+	from inscripcion ins join grupo gru on (ins.id_grupo = gru.id) join curso cur on (gru.id_curso = cur.id)
+	where gru.nombre = grupo_ and cur.nombre = curso_ and gru.anio = anio_ and gru.periodo = periodo_;
+		
+	update inscripcion
+	set calificacion = 35
+	where id_grupo = 
+	(
+		select gru.id
+		from grupo gru join curso cur on (gru.id_curso = cur.id)
+		where cur.nombre = curso_ and gru.nombre = grupo_ and gru.periodo = periodo_ and gru.anio = anio_
+	) and calificacion = 0;	
+	return modificar;
+end;
+$$
+
+select modificar_notas('G1', 'Manejo de Bases de Datos', 2020, 2)
+
+
+-- 1) Agregar atributo boolean "mayor_edad" a estudiante, por defecto: false.
+-- 2) Funcion contar_mayores_edad(nombre de facultad) ¿Cuántos estudiantes son mayores de edad de X facultad?
+
+alter table estudiante add column "mayoria_edad" boolean not null default false
+  
+create or replace function contar_mayores_edad(nombre_facultad varchar) returns integer
+language plpgsql
+as
+$$
+declare
+	fecha18 date;
+	anio18 integer;
+	mes integer;
+	dia integer;
+	cuenta integer;
+	id_dep integer;
+begin
+	anio18 = extract(year from current_date) - 18;
+	mes = extract(month from current_date);
+	dia = extract(day from current_date);
+	fecha18 = make_date(anio18, mes, dia);
+	
+	select count(fac.id) into cuenta
+	from estudiante est join departamento dep on (est.id_departamento = dep.id) join facultad fac on (dep.id_facultad = fac.id) 
+	where est.fecha_nacimiento <= fecha18 and fac.nombre = nombre_facultad;
+	
+	select dep.id into id_dep
+	from estudiante est join departamento dep on (est.id_departamento = dep.id) join facultad fac on (dep.id_facultad = fac.id)
+	where fac.nombre = nombre_facultad;
+	
+	update estudiante
+	set mayoria_edad = true
+	where id_departamento = id_dep and fecha_nacimiento <= fecha18;
+	
+	return cuenta;
+end
+$$
+
+--- Cambiar un estudiante.
+update estudiante
+set fecha_nacimiento = '2003-05-24'
+where apellido = 'Davila Rivera'
+
+--- Para comprobar
+update estudiante
+set mayoria_edad = false
+
+
+select contar_mayores_edad('Administracion')
+
+
+
+
+
+
