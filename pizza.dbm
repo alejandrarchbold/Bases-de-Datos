@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,0" last-zoom="1" max-obj-count="12"
+	 default-schema="public" default-owner="postgres">
+<database name="pizzeria" is-template="false" allow-conns="true">
+</database>
+
+<schema name="public" layer="0" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="chef" layer="0" collapse-mode="1" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="700" y="80"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="nombre" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<column name="apellido" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<constraint name="chef_pk" type="pk-constr" table="public.chef">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="pizza" layer="0" collapse-mode="1" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="60" y="140"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="nombre" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<constraint name="pizza_pk" type="pk-constr" table="public.pizza">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="pizza_chef" layer="0" collapse-mode="1" max-obj-count="6" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="380" y="20"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="dia" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="hora" not-null="true">
+		<type name="time" length="0"/>
+	</column>
+	<constraint name="pizza_chef_pk" type="pk-constr" table="public.pizza_chef">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_chef" index="3"/>
+		<object name="id_pizza" index="4"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="chef_fk" index="0"/>
+		<object name="pizza_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="chef_has_many_pizza_chef" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#221c24"
+	 src-table="public.chef"
+	 dst-table="public.pizza_chef"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="pizza_has_many_pizza_chef" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#da90d5"
+	 src-table="public.pizza"
+	 dst-table="public.pizza_chef"
+	 src-required="false" dst-required="false"/>
+
+<table name="cliente" layer="0" collapse-mode="1" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="60" y="800"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="nombre" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<column name="apellido" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<constraint name="cliente_pk" type="pk-constr" table="public.cliente">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="direccion" layer="0" collapse-mode="1" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="800" y="760"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="informacion" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<constraint name="direccion_pk" type="pk-constr" table="public.direccion">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="cliente_direccion" layer="0" collapse-mode="1" pagination="true" attribs-page="0" ext-attribs-page="0" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="440" y="860"/>
+</table>
+
+<relationship name="cliente_has_many_cliente_direccion" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#2062ec"
+	 src-table="public.cliente"
+	 dst-table="public.cliente_direccion"
+	 src-required="false" dst-required="false">
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<relationship name="direccion_has_many_cliente_direccion" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#a60ac8"
+	 src-table="public.direccion"
+	 dst-table="public.cliente_direccion"
+	 src-required="false" dst-required="false">
+	<constraint name="cliente_direccion_pk" type="pk-constr" alias="cliente_direccion_pk" protected="true" table="public.cliente_direccion">
+		</constraint>
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<table name="pedido" layer="0" collapse-mode="1" max-obj-count="7" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="40" y="480"/>
+	<column name="numero" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="valor" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="fecha" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="hora" not-null="true">
+		<type name="time" length="0"/>
+	</column>
+	<constraint name="pedido_pk" type="pk-constr" table="public.pedido">
+		<columns names="numero" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="cliente_has_many_pedido" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#af3c02"
+	 src-table="public.cliente"
+	 dst-table="public.pedido"
+	 src-required="false" dst-required="false"/>
+
+<table name="domiciliario" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="540" y="580"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="nombre" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<column name="apellido" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<constraint name="domiciliario_pk" type="pk-constr" table="public.domiciliario">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="domiciliario_has_many_pedido" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#9e9b5d"
+	 src-table="public.domiciliario"
+	 dst-table="public.pedido"
+	 src-required="false" dst-required="false"/>
+
+<table name="tamano" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="800" y="340"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="nombre" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<column name="precio" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="tamano_pk" type="pk-constr" table="public.tamano">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="pedido_pizza" layer="0" collapse-mode="2" max-obj-count="6" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="420" y="240"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="cantidad" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="pedido_pizza_pk" type="pk-constr" table="public.pedido_pizza">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="pedido_has_many_pedido_pizza" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#b310ff"
+	 src-table="public.pedido"
+	 dst-table="public.pedido_pizza"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="tamano_has_many_pedido_pizza" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#27a93e"
+	 src-table="public.tamano"
+	 dst-table="public.pedido_pizza"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="pizza_has_many_pedido_pizza" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#9b418e"
+	 src-table="public.pizza"
+	 dst-table="public.pedido_pizza"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
