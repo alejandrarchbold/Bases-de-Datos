@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,0" last-zoom="1" max-obj-count="13"
+	 default-schema="public" default-owner="postgres">
+<database name="new_database" is-template="false" allow-conns="true">
+</database>
+
+<schema name="public" layer="0" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="pais" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1320" y="440"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="nombre" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<constraint name="pais_pk" type="pk-constr" table="public.pais">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="companiia" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="940" y="100"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="nombre" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<constraint name="Companiia_pk" type="pk-constr" table="public.companiia">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="plataforma" layer="0" collapse-mode="2" max-obj-count="4" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="520" y="60"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="nombre" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<column name="fecha" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<constraint name="plataforma_pk" type="pk-constr" table="public.plataforma">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="companiia_has_many_plataforma" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#a86324"
+	 src-table="public.companiia"
+	 dst-table="public.plataforma"
+	 src-required="false" dst-required="false"/>
+
+<table name="juegos" layer="0" collapse-mode="1" max-obj-count="8" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="80" y="480"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="nombre" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<column name="fecha" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="genero" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<column name="precio" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="rating" not-null="true">
+		<type name="varchar" length="5"/>
+	</column>
+	<constraint name="juegos_pk" type="pk-constr" table="public.juegos">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="franquicia" layer="0" collapse-mode="2" max-obj-count="6" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="520" y="320"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="nombre" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<column name="fecha" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="entregas" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="franquicia_pk" type="pk-constr" table="public.franquicia">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="franquicia_has_many_juegos" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#ebb3b0"
+	 src-table="public.franquicia"
+	 dst-table="public.juegos"
+	 src-required="false" dst-required="false"/>
+
+<table name="desarrolladores" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="840" y="760"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="nombre" not-null="true">
+		<type name="varchar" length="45"/>
+	</column>
+	<constraint name="desarrolladores_pk" type="pk-constr" table="public.desarrolladores">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="pais_has_many_desarrolladores" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#24c582"
+	 src-table="public.pais"
+	 dst-table="public.desarrolladores"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="pais_has_many_companiia" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#d229e4"
+	 src-table="public.pais"
+	 dst-table="public.companiia"
+	 src-required="false" dst-required="false"/>
+
+<table name="contratos" layer="0" collapse-mode="2" max-obj-count="4" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="820" y="440"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="fecha" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<constraint name="contratos_pk" type="pk-constr" table="public.contratos">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_companiia" index="2"/>
+		<object name="id_desarrolladores" index="3"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="companiia_fk" index="1"/>
+		<object name="desarrolladores_fk" index="2"/>
+	</customidxs>
+</table>
+
+<relationship name="companiia_has_many_contratos" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#29e818"
+	 src-table="public.companiia"
+	 dst-table="public.contratos"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="desarrolladores_has_many_contratos" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#a9ab60"
+	 src-table="public.desarrolladores"
+	 dst-table="public.contratos"
+	 src-required="false" dst-required="false"/>
+
+<table name="juegos_plataforma" layer="0" collapse-mode="1" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="140" y="240"/>
+</table>
+
+<relationship name="juegos_has_many_juegos_plataforma" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#40d702"
+	 src-table="public.juegos"
+	 dst-table="public.juegos_plataforma"
+	 src-required="false" dst-required="false">
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<relationship name="plataforma_has_many_juegos_plataforma" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#92f113"
+	 src-table="public.plataforma"
+	 dst-table="public.juegos_plataforma"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="-103.025" y="-73.5826"/>
+	</label>
+	<constraint name="juegos_plataforma_pk" type="pk-constr" alias="juegos_plataforma_pk" protected="true" table="public.juegos_plataforma">
+		</constraint>
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<relationship name="companiia_has_many_franquicia" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#0e6aab"
+	 src-table="public.companiia"
+	 dst-table="public.franquicia"
+	 src-required="false" dst-required="false"/>
+
+<table name="juegos_des" layer="0" collapse-mode="1" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="320" y="800"/>
+</table>
+
+<relationship name="desarrolladores_has_many_juegos_des" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#59e21f"
+	 src-table="public.desarrolladores"
+	 dst-table="public.juegos_des"
+	 src-required="false" dst-required="false">
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<relationship name="juegos_has_many_juegos_des" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#3cd2c7"
+	 src-table="public.juegos"
+	 dst-table="public.juegos_des"
+	 src-required="false" dst-required="false">
+	<constraint name="juegos_des_pk" type="pk-constr" alias="juegos_des_pk" protected="true" table="public.juegos_des">
+		</constraint>
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+</dbmodel>
